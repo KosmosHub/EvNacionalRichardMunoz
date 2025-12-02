@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:background="#TRANSPARENT"
+        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <EditText

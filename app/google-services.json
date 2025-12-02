@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "130128253202",
+    "project_id": "conectamobile-d0f77",
+    "storage_bucket": "conectamobile-d0f77.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130128253202:android:bbf4f2b2f0f481a27263cb",
+        "android_client_info": {
+          "package_name": "com.example.conectamobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130128253202-gdp6s7rvri87ph1rsstkeidjnbjiu5of.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.conectamobile",
+            "certificate_hash": "0047a2f12b9f1c73420e674dbac3a71e442e7a93"
+          }
+        },
+        {
+          "client_id": "130128253202-5i5demqkqq2dq56v9s2hs8o0kaucsq2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA13gX-aaqQcAWrQ1nDmexJRUx9DcAETGU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "130128253202-5i5demqkqq2dq56v9s2hs8o0kaucsq2v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

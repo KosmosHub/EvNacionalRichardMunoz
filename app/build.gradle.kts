@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    // 1. ACTIVAMOS EL PLUGIN DE GOOGLE SERVICES AQUÍ
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -32,7 +34,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -40,4 +41,16 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // --- AGREGADO PARA FIREBASE ---
+    // Importamos la plataforma (BOM) para que controle las versiones
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+
+    // Librerías específicas (sin poner versión, el BOM se encarga)
+    implementation("com.google.firebase:firebase-auth")        // Autenticación
+    implementation("com.google.firebase:firebase-database")    // Base de datos Realtime
+
+    //autenticacion de google
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
 }
