@@ -45,37 +45,30 @@ public class ContactsFragment extends Fragment {
     }
 
     private void readUsers() {
-        // Obtenemos el usuario actual para no mostrarnos a nosotros mismos en la lista
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        // Referencia a la base de datos "users"
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUsers.clear();
-                // Recorremos todos los usuarios en la base de datos
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
 
-                    // Validación de seguridad para que no explote si hay datos raros
                     if (user != null && user.getUid() != null && firebaseUser != null) {
-                        // Agregamos a la lista a todos MENOS a nosotros mismos
                         if (!user.getUid().equals(firebaseUser.getUid())) {
                             mUsers.add(user);
                         }
                     }
                 }
 
-                // Le pasamos la lista llena al adaptador
-                contactsAdapter = new ContactsAdapter(getContext(), mUsers);
+                // CORRECCIÓN AQUÍ: Pasamos 'false' para indicar que NO busque mensajes
+                contactsAdapter = new ContactsAdapter(getContext(), mUsers, false);
                 recyclerView.setAdapter(contactsAdapter);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Manejo de errores si falla la conexión
             }
         });
     }
