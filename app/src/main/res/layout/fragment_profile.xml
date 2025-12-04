@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
-        <!-- Foto de Perfil -->
         <ImageView
             android:id="@+id/imgProfile"
             android:layout_width="140dp"
@@ -25,7 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="40dp"/>
 
-        <!-- Botón para cambiar foto (NUEVO) -->
+        <!-- ESTE BOTÓN ES CLAVE PARA EL REQUISITO DE FOTO -->
         <Button
             android:id="@+id/btnChangePhoto"
             android:layout_width="wrap_content"
@@ -38,7 +37,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp"/>
 
-        <!-- Campo Nombre -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilName"
             android:layout_width="match_parent"
@@ -54,7 +52,6 @@
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Campo Correo -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilEmail"
             android:layout_width="match_parent"
@@ -71,7 +68,6 @@
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Botón Guardar Cambios (Reutilizamos btnSave para mantener consistencia con Java) -->
         <Button
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
@@ -81,7 +77,6 @@
             app:layout_constraintTop_toBottomOf="@id/tilEmail"
             android:backgroundTint="#075E54"/>
 
-        <!-- Botón Cerrar Sesión -->
         <Button
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"

@@ -2,6 +2,9 @@ package com.example.conectamobile.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,18 +55,43 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         User user = usersList.get(position);
         holder.username.setText(user.getName());
 
-        // LÓGICA DE FOTO (Si el usuario tiene foto, la cargamos con Glide)
+        // LÓGICA DE FOTO MEJORADA (Soporte robusto para Base64)
         if (user.getPhotoUrl() != null && !user.getPhotoUrl().equals("")) {
-            Glide.with(context).load(user.getPhotoUrl()).into(holder.profile_image);
+            try {
+                // 1. Intentar decodificar Base64 manualmente a Bitmap
+                byte[] decodedString = Base64.decode(user.getPhotoUrl(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                if (decodedByte != null) {
+                    // Si se convirtió bien, usamos Glide para mostrar el Bitmap (es más eficiente)
+                    Glide.with(context)
+                            .load(decodedByte)
+                            .circleCrop() // Hacemos que se vea redonda
+                            .into(holder.profile_image);
+                } else {
+                    // Si el bitmap es nulo, quizás es una URL normal
+                    throw new IllegalArgumentException("No es base64 válido");
+                }
+            } catch (Exception e) {
+                // 2. Si falla la decodificación, asumimos que es una URL normal (ej: Google)
+                Glide.with(context)
+                        .load(user.getPhotoUrl())
+                        .circleCrop()
+                        .placeholder(android.R.drawable.sym_def_app_icon)
+                        .into(holder.profile_image);
+            }
         } else {
-            holder.profile_image.setImageResource(android.R.drawable.sym_def_app_icon);
+            // Si no tiene foto, poner la gris por defecto
+            Glide.with(context)
+                    .load(android.R.drawable.sym_def_app_icon)
+                    .circleCrop()
+                    .into(holder.profile_image);
         }
 
         // LÓGICA DE ÚLTIMO MENSAJE
         if (isChat) {
             lastMessage(user.getUid(), holder.status);
         } else {
-            // En la pestaña Contactos mostramos el email o estado
             holder.status.setText(user.getEmail());
         }
 
@@ -84,18 +112,17 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView username;
-        public TextView status; // Aquí pondremos el último mensaje
+        public TextView status;
         public ImageView profile_image;
 
         public ViewHolder(View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.tvContactName);
-            status = itemView.findViewById(R.id.tvContactStatus);
+            status = itemView.findViewById(R.id.tvContactStatus); // Este ID debe coincidir con item_contact.xml
             profile_image = itemView.findViewById(R.id.imgContactPhoto);
         }
     }
 
-    // --- MAGIA: Buscar el último mensaje en la BD ---
     private void lastMessage(final String userid, final TextView last_msg) {
         theLastMessage = "default";
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -108,7 +135,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Message chat = snapshot.getValue(Message.class);
                     if (firebaseUser != null && chat != null) {
-                        // Buscamos mensajes entre YO y EL CONTACTO (en cualquier dirección)
                         if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid) ||
                                 chat.getReceiver().equals(userid) && chat.getSender().equals(firebaseUser.getUid())) {
                             theLastMessage = chat.getMessage();
@@ -121,7 +147,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                         last_msg.setText("Sin mensajes");
                         break;
                     default:
-                        // Si el mensaje es muy largo, lo cortamos con "..."
                         if (theLastMessage.length() > 30) {
                             last_msg.setText(theLastMessage.substring(0, 30) + "...");
                         } else {
