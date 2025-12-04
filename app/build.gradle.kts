@@ -56,4 +56,10 @@ dependencies {
     //glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
+    implementation("com.github.hannesa2:paho.mqtt.android:4.3")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+
+    // Soporte para servicios legacy (ayuda a que Paho no falle en Android nuevos)
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+
 }

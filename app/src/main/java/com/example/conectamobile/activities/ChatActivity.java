@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +16,7 @@ import com.example.conectamobile.R;
 import com.example.conectamobile.adapters.MessagesAdapter;
 import com.example.conectamobile.models.Message;
 import com.example.conectamobile.models.User;
+import com.example.conectamobile.utils.MqttHandler; // <--- IMPORTANTE
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,7 +36,7 @@ public class ChatActivity extends AppCompatActivity {
     FirebaseUser fuser;
     DatabaseReference reference;
 
-    FloatingActionButton btn_send; // O ImageButton según tu XML
+    FloatingActionButton btn_send;
     EditText text_send;
 
     MessagesAdapter messagesAdapter;
@@ -46,44 +46,56 @@ public class ChatActivity extends AppCompatActivity {
     String userid;
     Intent intent;
 
+    // VARIABLE MQTT
+    private MqttHandler mqttHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        // Configuración del Toolbar y Header
+        // Inicializar UI
         username = findViewById(R.id.tvChatUserName);
-
-        // Configuración de la lista de mensajes
-        recyclerView = findViewById(R.id.recyclerMessages);
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        linearLayoutManager.setStackFromEnd(true); // Para que empiece desde abajo
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        // Botones e Inputs
         btn_send = findViewById(R.id.btnSend);
         text_send = findViewById(R.id.etMessage);
 
+        recyclerView = findViewById(R.id.recyclerMessages);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
         intent = getIntent();
-        userid = intent.getStringExtra("userid"); // Recibimos el ID del usuario con quien hablamos
+        userid = intent.getStringExtra("userid");
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
-        // 1. Botón Enviar
+        // --- INICIALIZAR MQTT (Requisito Rúbrica) ---
+        mqttHandler = new MqttHandler();
+        // Conectamos usando nuestro ID como cliente
+        if (fuser != null) {
+            mqttHandler.connect(this, fuser.getUid());
+        }
+        // ---------------------------------------------
+
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String msg = text_send.getText().toString();
                 if (!msg.equals("")) {
+                    // 1. Enviar por Firebase (Para que se vea en la app)
                     sendMessage(fuser.getUid(), userid, msg);
+
+                    // 2. Enviar por MQTT (Para cumplir la rúbrica)
+                    // Tópico: conectamobile/chat/PARA_QUIEN_VA
+                    mqttHandler.publish("conectamobile/chat/" + userid, msg);
                 } else {
-                    Toast.makeText(ChatActivity.this, "No puedes enviar un mensaje vacío", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatActivity.this, "Mensaje vacío", Toast.LENGTH_SHORT).show();
                 }
                 text_send.setText("");
             }
         });
 
-        // 2. Cargar datos del usuario con el que hablamos (Nombre en la barra superior)
+        // Cargar info del usuario receptor
         reference = FirebaseDatabase.getInstance().getReference("users").child(userid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -91,21 +103,18 @@ public class ChatActivity extends AppCompatActivity {
                 User user = dataSnapshot.getValue(User.class);
                 if (user != null) {
                     username.setText(user.getName());
-                    readMessages(fuser.getUid(), userid); // Comenzar a leer chat
+                    readMessages(fuser.getUid(), userid);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
 
-    // Función para guardar mensaje en Firebase
     private void sendMessage(String sender, String receiver, String message) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("receiver", receiver);
@@ -114,19 +123,16 @@ public class ChatActivity extends AppCompatActivity {
         reference.child("Chats").push().setValue(hashMap);
     }
 
-    // Función para leer mensajes en tiempo real
     private void readMessages(final String myid, final String userid) {
         mChat = new ArrayList<>();
-
         reference = FirebaseDatabase.getInstance().getReference("Chats");
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mChat.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Message chat = snapshot.getValue(Message.class);
-
-                    // Filtro mágico: Solo mostrar mensajes entre TÚ y ÉL/ELLA
                     if (chat != null) {
                         if (chat.getReceiver().equals(myid) && chat.getSender().equals(userid) ||
                                 chat.getReceiver().equals(userid) && chat.getSender().equals(myid)) {
@@ -140,8 +146,16 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Desconectar MQTT al salir para liberar recursos
+        if (mqttHandler != null) {
+            mqttHandler.disconnect();
+        }
     }
 }

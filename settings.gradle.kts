@@ -16,8 +16,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // SI ESTA LÍNEA FALTA O ESTÁ MAL ESCRITA, EL MQTT FALLARÁ SIEMPRE:
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
-rootProject.name = "Conecta Mobile"
+rootProject.name = "ConectaMobile" // (Sin espacios preferiblemente, pero así funciona)
 include(":app")
