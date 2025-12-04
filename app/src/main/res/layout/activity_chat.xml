@@ -95,11 +95,12 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp" />
 
+        <!-- CAMBIO: Ícono 'ic_menu_send' para el botón de enviar -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnSend"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_universal"
+            android:src="@android:drawable/ic_menu_send"
             app:backgroundTint="@color/colorPrimary"
             app:tint="@color/colorOnPrimary"
             app:fabSize="normal" />

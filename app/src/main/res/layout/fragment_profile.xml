@@ -33,8 +33,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <com.google.android.material.button.MaterialButton
+        <!-- CORRECCIÓN: Definido explícitamente como Button para coincidir con Java -->
+        <Button
             android:id="@+id/btnChangePhoto"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cambiar Foto"
@@ -83,7 +85,8 @@
                 android:textColor="@color/colorOnSurface"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
+        <!-- CORRECCIÓN: Definido como Button para evitar ClassCastException -->
+        <Button
             android:id="@+id/btnSave"
             style="@style/Widget.Conecta.Button"
             android:layout_width="0dp"
@@ -94,8 +97,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <TextView
+        <!-- CORRECCIÓN: Definido como Button -->
+        <Button
             android:id="@+id/btnLogout"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cerrar Sesión"
