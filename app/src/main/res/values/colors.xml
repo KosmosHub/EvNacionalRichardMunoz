@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <!-- Fondo general súper oscuro -->
+    <color name="colorBackground">#0D0D0F</color>  <!-- negro con azul/morado leve -->
+
+    <!-- Superficies (cards, barras, inputs) -->
+    <color name="colorSurface">#1A1A1F</color>
+
+    <!-- Primario morado elegante (Messenger vibe pero personalizado) -->
+    <color name="colorPrimary">#7A3EF0</color>  <!-- morado vibrante -->
+    <color name="colorOnPrimary">#FFFFFF</color>
+
+    <!-- Acento dorado suave -->
+    <color name="colorAccent">#F4E285</color>
+
+    <!-- Texto principal y secundario -->
+    <color name="colorOnSurface">#F2F2F2</color>
+    <color name="colorSecondaryText">#9A9A9A</color>
+
+    <!-- Burbujas de chat -->
+    <color name="bubble_sent_bg">#7A3EF0</color>
+    <color name="bubble_sent_text">#FFFFFF</color>
+
+    <color name="bubble_received_bg">#1F1F24</color>
+    <color name="bubble_received_text">#EDEDED</color>
+
+    <!-- Bottom Nav -->
+    <color name="icon_tint">#F4E285</color>
+
 </resources>

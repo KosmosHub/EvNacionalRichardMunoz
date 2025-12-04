@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-        <!-- OJO A LOS IDs: nav_contacts, nav_chats, nav_profile -->
+
         <item
             android:id="@+id/nav_contacts"
-            android:icon="@android:drawable/ic_menu_myplaces"
+            android:icon="@drawable/ic_universal"
             android:title="Contactos" />
 
         <item
             android:id="@+id/nav_chats"
-            android:icon="@android:drawable/ic_menu_send"
+            android:icon="@drawable/ic_universal"
             android:title="Chats" />
 
         <item
             android:id="@+id/nav_profile"
-            android:icon="@android:drawable/ic_menu_manage"
+            android:icon="@drawable/ic_universal"
             android:title="Perfil" />
 </menu>

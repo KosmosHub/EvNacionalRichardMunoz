@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="@color/colorBackground"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,81 +11,99 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
+        <TextView
+            android:id="@+id/tvTitleProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Perfil"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorOnSurface"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
         <ImageView
             android:id="@+id/imgProfile"
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:src="@android:drawable/sym_def_app_icon"
-            android:background="#E0E0E0"
+            android:src="@drawable/ic_universal"
             android:scaleType="centerCrop"
-            android:padding="2dp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/tvTitleProfile"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="40dp"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- ESTE BOTÓN ES CLAVE PARA EL REQUISITO DE FOTO -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnChangePhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cambiar Foto"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:textColor="#075E54"
+            android:textColor="@color/colorAccent"
+            android:backgroundTint="@android:color/transparent"
+            android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/imgProfile"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilName"
-            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Tu Nombre"
-            android:layout_marginTop="24dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:layout_constraintTop_toBottomOf="@id/btnChangePhoto">
+            app:layout_constraintTop_toBottomOf="@id/btnChangePhoto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etProfileName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorOnSurface"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Email (no editable) -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilEmail"
-            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Correo (No editable)"
-            android:layout_marginTop="16dp"
-            android:enabled="false"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:layout_constraintTop_toBottomOf="@id/tilName">
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/tilName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etProfileEmail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/colorOnSurface"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSave"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
+            style="@style/Widget.Conecta.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="Guardar Cambios"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@id/tilEmail"
-            android:backgroundTint="#075E54"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <Button
+        <TextView
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cerrar Sesión"
-            android:textColor="#D32F2F"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            app:layout_constraintTop_toBottomOf="@id/btnSave"
-            android:layout_marginTop="16dp"/>
+            android:textColor="#FF6B6B"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/btnSave"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.Conecta.Button" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="cornerRadius">14dp</item>
+    </style>
+
+    <style name="Widget.Conecta.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/colorSurface</item>
+        <item name="android:titleTextColor">@color/colorOnSurface</item>
+        <item name="android:subtitleTextColor">@color/colorSecondaryText</item>
+        <item name="elevation">8dp</item>
+    </style>
+
+    <style name="Widget.Conecta.TextInputLayout"
+        parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/colorSurface</item>
+        <item name="hintTextColor">@color/colorSecondaryText</item>
+        <item name="android:textColor">@color/colorOnSurface</item>
+        <item name="boxStrokeColor">@color/colorAccent</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Medium</item>
+    </style>
+
+</resources>

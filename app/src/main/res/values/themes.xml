@@ -1,9 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.ConectaMobile" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <!-- Tema base oscuro permanente -->
+    <style name="Base.Theme.ConectaMobile" parent="Theme.Material3.Dark.NoActionBar">
+
+        <!-- Paleta principal -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+
+        <item name="colorSecondary">@color/colorAccent</item>
+        <item name="colorOnSecondary">@color/colorOnSurface</item>
+
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+
+        <!-- Inputs -->
+        <item name="textInputStyle">@style/Widget.Conecta.TextInputLayout</item>
+
+        <!-- Botones -->
+        <item name="materialButtonStyle">@style/Widget.Conecta.Button</item>
+
+        <!-- Toolbar personalizada -->
+        <item name="toolbarStyle">@style/Widget.Conecta.Toolbar</item>
+
+        <!-- Status bar y navigation bar -->
+        <item name="android:statusBarColor">@color/colorSurface</item>
+        <item name="android:navigationBarColor">@color/colorBackground</item>
+
+
+
     </style>
 
     <style name="Theme.ConectaMobile" parent="Base.Theme.ConectaMobile" />
+
 </resources>
